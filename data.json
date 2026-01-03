@@ -1,0 +1,58 @@
+{
+  "p001":{
+    "name":"ritesh",
+    "age":24,
+    "healthy":true,
+    "location":"India",
+    "occupation":"Software Engineer",
+    "salary":75000,
+    "skills":["Python","FastAPI","Django","JavaScript"]
+
+  },
+  "p002":{
+    "name":"John",
+    "age":30,
+    "healthy":false,
+    "location":"USA",
+    "occupation":"Data Scientist",
+    "salary":90000,
+    "skills":["Python","Pandas","Machine Learning"]
+  },
+    "p003":{
+        "name":"Alice",
+        "age":28,
+        "healthy":true,
+        "location":"UK",
+        "occupation":"Web Developer",
+        "salary":65000,
+        "skills":["HTML","CSS","JavaScript","React"]
+    },
+    "p004":{
+        "name":"Bob",
+        "age":35,
+        "healthy":true,
+        "location":"Canada",
+        "occupation":"DevOps Engineer",
+        "salary":80000,
+        "skills":["AWS","Docker","Kubernetes","CI/CD"]
+    },
+    "p005":{
+        "name":"Eve",
+        "age":32,
+        "healthy":false,
+        "location":"Australia",
+        "occupation":"Cybersecurity Analyst",
+        "salary":85000,
+        "skills":["Network Security","Ethical Hacking","Python"]
+    },
+    "p006":{
+        "name":"Charlie",
+        "age":29,
+        "healthy":true,
+        "location":"Germany",
+        "occupation":"Mobile App Developer",
+        "salary":70000,
+        "skills":["Java","Kotlin","Swift","Flutter"]
+    }
+
+}
