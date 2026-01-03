@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Path , HTTPException , Query
+from fastapi import FastAPI, Path , HTTPException , Query , Body , Request , Response
 import json
 
 
@@ -103,3 +103,32 @@ def read_data_by_patient_id(patient_id: str = Path(..., description="The ID of t
         else: 
             raise HTTPException(status_code=404, detail="Patient ID not found")
 
+
+
+# Now POST / PATCH / DELETE methods can be added here to create , update and delete the data
+# How to use Body  , Request , Response in FastAPI
+@app.post("/data")
+def create_data(request: Request , response: Response , new_data: dict = Body(... , description="New patient data to add" , example={
+        "patient_id": "P008",
+        "name":"Charlie-2",
+        "age":29,
+        "healthy":True,
+        "location":"Germany",
+        "occupation":"Mobile App Developer",
+        "salary":70000,
+        "skills":["Java","Kotlin","Swift","Flutter"]
+})):
+    data=load_json_data()
+    patient_id=new_data.get("patient_id")
+    if not patient_id:
+        raise HTTPException(status_code=400, detail="patient_id is required in the request body")
+    if patient_id in data:
+        raise HTTPException(status_code=400, detail="Patient ID already exists")
+    data[patient_id]=new_data
+    # append_json_data(new_data)
+    response.status_code=201
+    return {
+        "msg":"Data created successfully",
+        "data":new_data,
+        "status":201
+    }
