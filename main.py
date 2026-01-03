@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Path , HTTPException , Query , Body , Request , Response
 import json
+from fastapi.responses import JSONResponse
 
 
 # create an object of FastApi
@@ -14,11 +15,10 @@ def load_json_data():
     print("Data loaded successfully" )    
     return data
     
-def append_json_data(data):
-    # append data to json file at the end
-    with open("data.json" , "a") as f:
+def write_json_data(data):
+    # write data to json file
+    with open("data.json" , "w") as f:
         json.dump(data, f)
-    f.write("\n")
     return True
 
 @app.get("/")
@@ -43,7 +43,7 @@ def read_data():
 
 
 # QueryParam: sort by age(required) and order(optional by default asc) in ascending or descending order
-from fastapi import Query, HTTPException
+# from fastapi import Query, HTTPException
 
 @app.get("/data/sort")
 def read_data_sorted(
@@ -108,7 +108,7 @@ def read_data_by_patient_id(patient_id: str = Path(..., description="The ID of t
 # Now POST / PATCH / DELETE methods can be added here to create , update and delete the data
 # How to use Body  , Request , Response in FastAPI
 @app.post("/data")
-def create_data(request: Request , response: Response , new_data: dict = Body(... , description="New patient data to add" , example={
+def create_data(  new_data: dict = Body(... , description="New patient data to add" , example={
         "patient_id": "P008",
         "name":"Charlie-2",
         "age":29,
@@ -125,10 +125,32 @@ def create_data(request: Request , response: Response , new_data: dict = Body(..
     if patient_id in data:
         raise HTTPException(status_code=400, detail="Patient ID already exists")
     data[patient_id]=new_data
-    # append_json_data(new_data)
-    response.status_code=201
-    return {
+    write_json_data(data)
+    # response.status_code=201
+    # return {
+    #     "msg":"Data created successfully",
+    #     "data":new_data,
+    #     "status":201
+    # }
+    return JSONResponse(status_code=201, content={
         "msg":"Data created successfully",
         "data":new_data,
-        "status":201
-    }
+    })
+
+# create a pydantic model for update data , insert data in db , in fastapi no need to get data from request body , you can directly use the pydantic model to get the data from request body
+'''
+`Examples`:
+            from pydantic import BaseModel
+
+            class UserCreate(BaseModel):
+                name: str
+                age: int
+                is_active: bool = True
+
+            @app.post("/users")
+            def create_user(user: UserCreate):
+                return user
+            Here, the `UserCreate` model defines the expected structure of the request body for creating a new user. FastAPI automatically parses the incoming JSON request body and populates an instance of `UserCreate`, which is then passed to the `create_user` function.
+
+
+'''

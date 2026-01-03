@@ -97,7 +97,7 @@
 
 
 ### Dependencies required to create FASTAPI server
-- python , pip , now create a venv
+- python , pip , now create a venv : `python -m venv  myvenv` and activate it : `source myvenv/bin/activate`
 - install packages : pip install fastapi uvicorn pydantic
 - create a main.py file and add the code that is presnt in main.py file
 - how to run main.py :
