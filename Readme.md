@@ -243,3 +243,11 @@ ml_fastapi_app/
 
 
 ```
+
+
+## How to install the all dependencies required for the project:
+- `command` : `pip install -r requirements.txt`
+- sometimes it is required to create this requirement.txt file (if someone wants to run this project locally) then this file is required :
+    - `command` : `pip freeze > requirements.txt`
+    - this will generate a txt file with above name and append all the dependecies name which is required for this project.
+    - `NOTE` : Remove unwanted library which is not required for this project from .txt file.

@@ -33,7 +33,7 @@ def predict_insurance(data:dict):
         input_data=pd.DataFrame([data])
         
         #make prediction using the loaded model
-        prediction=model.predict(input_data)
+        prediction=model.predict(input_data)[0]
         
         #return the prediction result
         return JSONResponse(
