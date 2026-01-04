@@ -154,3 +154,33 @@ def create_data(  new_data: dict = Body(... , description="New patient data to a
 
 
 '''
+
+
+# Put and delete Methods
+
+@app.put("/data/{patient_id}")
+def update_patient_data(patient_id:str, updated_data: dict = Body(...)): #get patient id from path and updated data from body
+    #find that patient id in the data
+    data=load_json_data()
+    if patient_id not in data:
+        raise HTTPException(status_code=404, detail="Patient ID not found")
+    #update the data
+    # for simplicity , we will just update the age of the patient
+    data[patient_id]["age"]+=1
+    write_json_data(data)
+    return JSONResponse(status_code=200, content={
+        "msg":"Data updated successfully",
+        "data":data[patient_id],
+    })
+
+@app.delete("/data/{patient_id}")
+def delete_patient_data(patient_id:str):
+    data=load_json_data()
+    if patient_id not in data:
+        raise HTTPException(status_code=404, detail="Patient ID not found")
+    deleted_data=data.pop(patient_id)
+    write_json_data(data)
+    return JSONResponse(status_code=200, content={
+        "msg":"Data deleted successfully",
+        "data":deleted_data,
+    })

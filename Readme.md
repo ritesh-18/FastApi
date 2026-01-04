@@ -77,21 +77,11 @@
      - `Query()` is a utility functions provided by FastApi to declare , vlaidate , and documents query parameters in your API endpoints.
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- `JSONResponse` use to send the response with proper status code
+     - Example: return JSONResponse(status_code=200,    content={
+        "msg":"Data deleted successfully",
+        "data":deleted_data,
+    })
 
 
 
@@ -182,6 +172,74 @@ app/
 ├── clients/          # Call other services
 ├── middlewares/      # Request tracing, metrics
 ├── health/           # /health, /readiness
+
+
+```
+
+
+
+
+## Lets talk about how to integrate our model in FastApi
+
+- Here is a flow diagram :
+  model.pkl <-----> API <------> Frontend
+
+
+- Recommended Folder Structure (ML+FASTAPI)
+
+```
+ml_fastapi_app/
+│
+├── app/
+│   ├── main.py                # FastAPI app entry point
+│   │
+│   ├── api/                   # API layer (routes)
+│   │   ├── __init__.py
+│   │   ├── v1/
+│   │   │   ├── __init__.py
+│   │   │   ├── routes.py      # Route aggregator
+│   │   │   └── predict.py     # /predict endpoint
+│   │
+│   ├── core/                  # App-wide configs
+│   │   ├── __init__.py
+│   │   ├── config.py          # Env, settings
+│   │   └── logging.py
+│   │
+│   ├── models/                # ML artifacts
+│   │   ├── __init__.py
+│   │   ├── model.pkl          # Trained ML model
+│   │   ├── tokenizer.pkl      # Encoder / scaler
+│   │   └── metadata.json      # Feature info, version
+│   │
+│   ├── schemas/               # Pydantic schemas
+│   │   ├── __init__.py
+│   │   ├── request.py         # Input schema
+│   │   └── response.py        # Output schema
+│   │
+│   ├── services/              # Business logic
+│   │   ├── __init__.py
+│   │   ├── model_loader.py    # Load model once
+│   │   └── inference.py       # Prediction logic
+│   │
+│   ├── utils/                 # Helpers
+│   │   ├── __init__.py
+│   │   └── preprocessing.py  # Feature engineering
+│   │
+│   └── dependencies.py        # Dependency injection
+│
+├── training/
+│   ├── train.py               # Model training
+│   ├── evaluate.py            # Metrics
+│   └── save_model.py          # Persist model
+│
+├── tests/
+│   ├── test_predict.py
+│   └── test_model.py
+│
+├── requirements.txt
+├── Dockerfile
+├── README.md
+└── .env
 
 
 ```
